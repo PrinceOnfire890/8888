@@ -121,19 +121,20 @@ STYLE:
     const res = await axios.post(
       CEREBRAS_API_URL,
       {
-        model: "llama-3.3-70b",
+        model: "llama3.1-70b", // ✅ Fixed: Cerebras standard model
         messages: [
           { role: "system", content: PROMPT },
           ...messages
         ],
         temperature: 0.75,
-        max_completion_tokens: 80
+        max_tokens: 100 // ✅ Fixed: max_completion_tokens ki jagah max_tokens
       },
       {
         headers: {
           Authorization: `Bearer ${getRandomApiKey()}`,
           "Content-Type": "application/json"
-        }
+        },
+        timeout: 10000 
       }
     );
 
@@ -157,7 +158,8 @@ STYLE:
 
     return api.sendMessage(reply, threadID, messageID);
   } catch (e) {
-    console.error(e.message);
+    // Isse Termux console me error dikhega
+    console.error("DEBUG:", e.response?.data || e.message);
     return api.sendMessage("Network slow hai 😌", threadID, messageID);
   }
 }
@@ -166,6 +168,7 @@ module.exports.run = async function () {};
 
 // 🚀 AUTO HANDLER
 module.exports.handleEvent = async function ({ api, event }) {
+  if (event.type !== "message" && event.type !== "message_reply") return;
   const body = event.body?.toLowerCase() || "";
 
   const isReplyToBot =
