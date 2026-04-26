@@ -22,7 +22,7 @@ module.exports.config = {
   version: "3.1.0",
   hasPermssion: 0,
   credits: "Raj",
-  description: "Nobita AI auto chatbot (reply-context fixed)",
+  description: "Nobita AI auto chatbot (model name fixed)",
   commandCategory: "ai",
   usages: "",
   cooldowns: 1
@@ -121,20 +121,20 @@ STYLE:
     const res = await axios.post(
       CEREBRAS_API_URL,
       {
-        model: "llama3.1-70b", // ✅ Fixed: Cerebras standard model
+        model: "llama-3.3-70b", // ✅ FIXED: Changed to latest available model
         messages: [
           { role: "system", content: PROMPT },
           ...messages
         ],
         temperature: 0.75,
-        max_tokens: 100 // ✅ Fixed: max_completion_tokens ki jagah max_tokens
+        max_tokens: 100 // ✅ Standard param
       },
       {
         headers: {
           Authorization: `Bearer ${getRandomApiKey()}`,
           "Content-Type": "application/json"
         },
-        timeout: 10000 
+        timeout: 15000
       }
     );
 
@@ -158,7 +158,6 @@ STYLE:
 
     return api.sendMessage(reply, threadID, messageID);
   } catch (e) {
-    // Isse Termux console me error dikhega
     console.error("DEBUG:", e.response?.data || e.message);
     return api.sendMessage("Network slow hai 😌", threadID, messageID);
   }
