@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rudra Bot — 24x7 Online</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+    }
+    .slideshow {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    .slideshow img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      animation: fade 15s infinite;
+    }
+    .slideshow img:nth-child(1) { animation-delay: 0s; }
+    .slideshow img:nth-child(2) { animation-delay: 5s; }
+    .slideshow img:nth-child(3) { animation-delay: 10s; }
+
+    @keyframes fade {
+      0% { opacity: 0; }
+      10% { opacity: 1; }
+      30% { opacity: 1; }
+      40% { opacity: 0; }
+      100% { opacity: 0; }
+    }
+
+    .info-box {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      padding: 20px 30px;
+      border-radius: 20px;
+      text-align: center;
+      color: white;
+      box-shadow: 0 0 30px rgba(255, 0, 255, 0.4);
+    }
+
+    .info-box h1 {
+      color: #ff4ddb;
+      font-size: 24px;
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px #ff4ddb;
+    }
+
+    .info-box p {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .info-box b {
+      color: #00eaff;
+    }
+  </style>
+</head>
+<body>
+  <div class="slideshow">
+    <img src="https://i.imgur.com/8D8s7Eb.jpeg" alt="Slide 1">
+    <img src="https://i.imgur.com/JkH0rZ8.jpeg" alt="Slide 2">
+    <img src="https://i.imgur.com/FHc9LDY.jpeg" alt="Slide 3">
+  </div>
+
+  <div class="info-box">
+    <h1>🤖 Rudra Bot — 24x7 Online</h1>
+    <p>📸 Insta ID: <b>@haryana_aala_sayzs</b><br/>
+    📱 WhatsApp: <b>8950386412</b><br/>
+    🔥 Always active, always stylish!</p>
+  </div>
+</body>
+</html>
