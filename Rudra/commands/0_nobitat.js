@@ -2,7 +2,7 @@ const axios = require("axios");
 
 const CEREBRAS_API_URL = "https://api.cerebras.ai/v1/chat/completions";
 const API_KEYS = [
-  "csk-mhndwmdwhktdp84nx6wmkyw6xy2cppf6dk5584mh5yxvk58j" // ✅ Check if this key is active
+  "csk-mhndwmdwhktdp84nx6wmkyw6xy2cppf6dk5584mh5yxvk58j"
 ];
 
 const OWNER_UIDS = [
@@ -19,10 +19,10 @@ function getRandomApiKey() {
 
 module.exports.config = {
   name: "prince",
-  version: "3.5.0",
+  version: "3.6.0",
   hasPermssion: 0,
   credits: "Raj",
-  description: "Nobita AI Final Fix with Debugging",
+  description: "Nobita AI Adaptive Tone Bot (Pyar + Gussa)",
   commandCategory: "ai",
   usages: "",
   cooldowns: 1
@@ -37,6 +37,7 @@ async function replyAI(api, event) {
   const isOwner = OWNER_UIDS.includes(senderID.toString());
   let messages = [];
 
+  // Memory Management
   if (event.messageReply && event.messageReply.senderID == api.getCurrentUserID()) {
     messages = [
       { role: "assistant", content: event.messageReply.body || "" },
@@ -50,17 +51,27 @@ async function replyAI(api, event) {
   }
 
   const PROMPT = isOwner
-    ? `Tu Nobita hai. Prince/Owner: ${OWNER_NAME}. Respectful raho. 1 line me jawab do.`
-    : `Tu Nobita hai. Prince: ${OWNER_NAME}. Sarcastic roast on light insults. 1 line only.`;
+    ? `IDENTITY: Tu Nobita hai. Owner: ${OWNER_NAME}. 
+       BEHAVIOUR: Prince ke liye hamesha loyal, respectful aur obedient raho. Prince ko kabhi ulta mat bolna.
+       STYLE: Hinglish, 1 line only.`
+    : `IDENTITY: Tu Nobita hai. Prince: ${OWNER_NAME}.
+       CORE RULE: Mirror the User's Tone.
+       1. AGGRESSION: Agar user gaali de ya badtameezi kare, toh tu bhi gusse me wahi tone me jawab de. Samne wala jitna ganda bolega, tu utna hi bhayankar response dega.
+       2. RESPECT: Agar user pyar se baat kare (Hi, Hello, Kaise ho), toh tu bhi ek pyara aur helpful dost ban kar baat kar.
+       3. INSULT CONTROL: 
+          - Normal insult (pagal, gawar) -> funny/sarcastic roast.
+          - Maa-behen ki gaali -> Use same aggressive tone to shut them up.
+       4. RESTRICTIONS: Kisi aur ko Prince/Boss mat bolna. ${OWNER_NAME} ke khilaf kuch mat sunna.
+       STYLE: Hinglish, STRICTLY 1 line, Short response.`;
 
   try {
     const res = await axios.post(
       CEREBRAS_API_URL,
       {
-        model: "llama3.1-8b", // ✅ 70b fail ho toh 8b try karein (stable hai)
+        model: "llama3.1-8b", 
         messages: [{ role: "system", content: PROMPT }, ...messages],
-        temperature: 0.7,
-        max_tokens: 100
+        temperature: 0.8,
+        max_tokens: 120
       },
       {
         headers: {
@@ -80,17 +91,8 @@ async function replyAI(api, event) {
 
     return api.sendMessage(reply, threadID, messageID);
   } catch (e) {
-    // Ye logs Render console me check karna
-    console.log("FULL ERROR:", e.response?.data || e.message);
-
-    let errorNote = "Network slow hai 😌"; 
-    
-    if (e.response?.status === 401) errorNote = "Abe teri API KEY galat hai ya expire ho gayi! ❌";
-    if (e.response?.status === 404) errorNote = "Cerebras ne model name change kar diya hai! 🔄";
-    if (e.response?.status === 429) errorNote = "API Limit khatam! New key dalo. ⏳";
-    if (e.message.includes("timeout")) errorNote = "Server response nahi de raha, thoda ruko. ⏳";
-
-    return api.sendMessage(errorNote, threadID, messageID);
+    console.log("Error:", e.response?.data || e.message);
+    return api.sendMessage("Network slow hai 😌", threadID, messageID);
   }
 }
 
