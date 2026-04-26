@@ -2,7 +2,7 @@ const axios = require("axios");
 
 const CEREBRAS_API_URL = "https://api.cerebras.ai/v1/chat/completions";
 const API_KEYS = [
-  "csk-952hdx5tf48rndye6dmf8ewewmpvf6fpx99kjnmf292py3nk"
+  "csk-mhndwmdwhktdp84nx6wmkyw6xy2cppf6dk5584mh5yxvk58j"
 ];
 
 const OWNER_UIDS = [
